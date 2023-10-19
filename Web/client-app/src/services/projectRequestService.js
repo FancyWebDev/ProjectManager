@@ -1,31 +1,44 @@
 import { uri } from '@/helpers/variables'
 
-async function getAll() {
+export async function getAll() {
   const [response] = await Promise.all([fetch(`${uri}/project`)])
-  const projects = await response.json()
-
-  console.log(projects)
-  return projects
+  return await response.json()
 }
 
-async function get(id) {
+export async function get(id) {
   const [response] = await Promise.all([fetch(`${uri}/project/detail/${id}`)])
   return await response.json()
 }
 
-async function create(project) {
-  let formData = new FormData()
+export async function create(project) {
+  const formData = new FormData()
+  const {
+    name,
+    customerCompanyName,
+    performerCompanyName,
+    directorId,
+    collaboratorsId,
+    priority,
+    projectStartDate,
+    projectEndDate,
+    files
+  } = project
 
-  for (const name in project){
-    if(typeof project[name] === 'string'){
-      formData.append(name, project[name])
-    }
-    else{
-      formData.append(name, JSON.stringify(project[name]))
+  formData.append('name', name)
+  formData.append('customerCompanyName', customerCompanyName)
+  formData.append('performerCompanyName', performerCompanyName)
+  formData.append('directorId', directorId)
+  formData.append('priority', priority)
+  formData.append('projectStartDate', projectStartDate)
+  formData.append('projectEndDate', projectEndDate)
+  appendArray(collaboratorsId, 'collaboratorsId')
+  appendArray(files, 'files')
+
+  function appendArray(array, key){
+    for (let i = 0; i < array.length; i++) {
+      formData.append(key, array[i])
     }
   }
-
-  formData.append('files', project.files)
 
   const request = fetch(`${uri}/project`, {
     method: 'POST',
@@ -33,12 +46,16 @@ async function create(project) {
     body: formData,
   })
 
+  formData.forEach(value => {
+    console.log(value)
+  })
+
   const [response] = await Promise.all([request])
   console.log(response)
   return response
 }
 
-async function update(project) {
+export async function update(project) {
   const request = fetch(`${uri}/project/edit/${project.id}`, {
     method: 'PUT',
     mode: 'cors',
@@ -54,7 +71,7 @@ async function update(project) {
   return response
 }
 
-async function deleteProject(project) {
+export async function deleteProject(project) {
   const request = fetch(`${uri}/project/delete/${project.id}`, {
     method: 'DELETE',
     mode: 'cors',
@@ -69,5 +86,3 @@ async function deleteProject(project) {
   console.log(response)
   return response
 }
-
-export { getAll, get, create, update, deleteProject }

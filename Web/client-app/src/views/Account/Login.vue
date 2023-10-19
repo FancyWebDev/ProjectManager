@@ -1,26 +1,18 @@
 <template>
-  <div class="container">
-    <div class="row">
-      <div class="col-md-9 offset-2">
-        <h4 class="offset-1">Log in to your account</h4>
-        <div class="row">
-          <div class="col-md-8">
-            <form v-on:submit.prevent="login">
-              <div v-if="error != null" class="text-danger">{{ error }}</div>
-              <div class="mb-3">
-                <label class="control-label" for="email">Email</label>
-                <input v-model="account.email" type="email" id="email" class="form-control">
-              </div>
-              <div class="mb-3">
-                <label class="control-label" for="password">Password</label>
-                <input v-model="account.password" type="password" id="password" class="form-control"/>
-              </div>
-              <div class="mb-3">
-                <button class="btn btn-outline-success" type="submit">Log in</button>
-              </div>
-            </form>
+  <div class="container text-center">
+    <div class="row justify-content-center">
+      <div class="col-md-6">
+        <h4 class="mt-3 mb-5">Log in to your account</h4>
+        <form v-on:submit.prevent="login">
+          <div v-if="error != null" class="text-danger">{{ error }}</div>
+          <div class="mb-3"><label class="control-label" for="email">Email</label> <input
+              v-model="account.email" type="email" id="email" class="form-control"></div>
+          <div class="mb-3"><label class="control-label" for="password">Password</label> <input
+              v-model="account.password" type="password" id="password" class="form-control"/></div>
+          <div class="mb-3 text-center">
+            <button class="btn btn-outline-success" type="submit">Log in</button>
           </div>
-        </div>
+        </form>
       </div>
     </div>
   </div>

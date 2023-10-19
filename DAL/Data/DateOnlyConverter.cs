@@ -1,14 +1,12 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DAL.Data
+namespace DAL.Data;
+
+public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
 {
-    public class DateOnlyConverter : ValueConverter<DateOnly, DateTime>
+    public DateOnlyConverter() : base(
+        dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
+        dateTime => DateOnly.FromDateTime(dateTime))
     {
-        public DateOnlyConverter() : base(
-            dateOnly => dateOnly.ToDateTime(TimeOnly.MinValue),
-            dateTime => DateOnly.FromDateTime(dateTime))
-        {
-        }
     }
 }

@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using BLL.DTO;
+﻿using BLL.DTO;
 using DAL.Models;
+using Task = System.Threading.Tasks.Task;
 
-namespace BLL.Services
+namespace BLL.Services;
+
+public interface IProjectService
 {
-    public interface IProjectService
-    {
-        IEnumerable<ProjectDto> GetAll();
-        ProjectDto Get(Func<Project, bool> predicate);
-        bool Exist(Func<Project, bool> predicate);
-        void Add(ProjectDto projectDto);
-        void Update(ProjectDto projectDto);
-        void Delete(ProjectDto projectDto);
-    }
+    IEnumerable<ProjectDto> GetAll();
+    ProjectDto Get(Func<Project, bool> predicate);
+    bool Exist(Func<Project, bool> predicate);
+    Task Add(ProjectDto projectDto);
+    void Update(ProjectDto projectDto);
+    void Delete(ProjectDto projectDto);
 }

@@ -26,29 +26,30 @@
     <div class="mb-3">
       <h3 class="form-label">Director</h3>
       <div class="row row-cols-3 m-3 gap-3">
-        <p :class="director == null">No director</p>
-        <div v-for="collaborator in project.collaborators" class="card" style="width: 18rem;">
-          <div class="card-body">
-            <h6 class="card-title">{{ director.firstName }} {{ director.lastName }} {{ director.patronymic }}</h6>
-            <p class="card-text">{{ director.email }}</p>
-            <router-link :to="{ name: 'CollaboratorDetail', params: { id: collaborator.id } }"
-                         class="btn btn-sm btn-info  me-md-2">
-              View
-            </router-link>
-          </div>
+        <p v-if="director == null">No director</p>
+        <div class="card-body">
+          <h6 class="card-title">{{ director.firstName }} {{ director.lastName }} {{
+              director.patronymic
+            }}</h6>
+          <p class="card-text">{{ director.email }}</p>
+          <router-link :to="{ name: 'CollaboratorDetail', params: { id: director.id } }"
+                       class="btn btn-sm btn-info  me-md-2">
+            View
+          </router-link>
         </div>
       </div>
     </div>
 
     <div class="mb-3">
       <h3 class="form-label">Collaborators</h3>
-      <div class="row row-cols-3 m-3 gap-3">
-        <p :class="project.collaborators == null">No collaborators</p>
-        <div v-for="collaborator in project.collaborators"
-             v-if="collaborator != null && collaborator.id !== project.directorId"
-             class="card" style="width: 18rem;">
+      <div class="row row-cols-3 gap-3">
+        <p v-if="project.collaborators == null">No collaborators</p>
+        <div
+            v-for="collaborator in project.collaborators"
+            class="card" style="width: 18rem;">
           <div class="card-body">
-            <h6 class="card-title">{{ collaborator.firstName }} {{ collaborator.lastName }} {{ collaborator.patronymic }}
+            <h6 class="card-title">{{ collaborator.firstName }} {{ collaborator.lastName }}
+              {{ collaborator.patronymic }}
             </h6>
             <p class="card-text">{{ collaborator.email }}</p>
             <router-link :to="{ name: 'CollaboratorDetail', params: { id: collaborator.id } }"

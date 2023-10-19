@@ -83,7 +83,7 @@ export default {
         customerCompanyName: null,
         performerCompanyName: null,
         directorId: null,
-        collaborators: [],
+        collaboratorsId: [],
         priority: 0,
         projectStartDate: null,
         projectEndDate: null
@@ -138,7 +138,7 @@ export default {
     },
     formatDate(str) {
       return str
-          .replaceAll('.', '-')
+          .replaceAll('/', '-')
           .split('-')
           .reverse()
           .join('-')
@@ -171,7 +171,9 @@ export default {
       this.rawData.director = director
     },
     provideFormData() {
-      this.project.collaborators = Object.values(this.rawData.collaborators)
+      this.project.collaboratorsId = Object
+          .values(this.rawData.collaborators)
+          .map(collaborator => collaborator.id)
       this.project.priority = this.priorityOptions[this.rawData.priority].priority
       this.project.directorId = this.rawData.director.id
 

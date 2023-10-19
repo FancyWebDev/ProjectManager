@@ -1,9 +1,8 @@
-﻿namespace DAL
+﻿namespace DAL;
+
+public enum ProjectPriority
 {
-    public enum ProjectPriority
-    {
-        None,
-        Medium,
-        High
-    }
+    None,
+    Medium,
+    High
 }

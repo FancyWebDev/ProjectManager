@@ -1,16 +1,11 @@
-using System;
 using System.Text.Json.Serialization;
 using BLL.Services;
 using DAL.Data;
 using DAL.Models;
 using DAL.Repository;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +19,7 @@ builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddScoped<ICollaboratorService, CollaboratorService>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 builder.Services.AddScoped<AccountService>();
-builder.Services.AddScoped<FileService>();
+builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<DataContext>(options =>

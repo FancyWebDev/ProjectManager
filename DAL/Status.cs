@@ -1,9 +1,8 @@
-﻿namespace DAL
+﻿namespace DAL;
+
+public enum Status
 {
-    public enum Status
-    {
-        ToDo,
-        InProgress,
-        Done
-    }
+    ToDo,
+    InProgress,
+    Done
 }

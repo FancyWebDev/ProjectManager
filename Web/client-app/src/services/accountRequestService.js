@@ -1,6 +1,6 @@
 import { uri } from "@/helpers/variables"
 
-async function login(account) {
+export async function login(account) {
   const request = fetch(`${uri}/account/login`, {
     method: 'POST',
     mode: "cors",
@@ -15,7 +15,7 @@ async function login(account) {
   return response;
 }
 
-async function register(account) {
+export async function register(account) {
   const request = fetch(`${uri}/account/register`, {
     method: 'POST',
     mode: "cors",
@@ -30,7 +30,7 @@ async function register(account) {
   return response;
 }
 
-async function logout() {
+export async function logout() {
   const request = fetch(`${uri}/account`, {
     method: 'POST',
     mode: "cors",
@@ -43,5 +43,3 @@ async function logout() {
 
   return response;
 }
-
-export { login, register, logout }

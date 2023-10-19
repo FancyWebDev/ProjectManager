@@ -1,9 +1,8 @@
-﻿namespace BLL
+﻿namespace BLL;
+
+public enum UserRoleType
 {
-    public enum UserRoleType
-    {
-        Collaborator,
-        ProjectManager,
-        Director
-    }
+    Collaborator,
+    ProjectManager,
+    Director
 }

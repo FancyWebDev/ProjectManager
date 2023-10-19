@@ -1,40 +1,29 @@
-﻿using System.IO;
-using System.Threading.Tasks;
-using Dropbox.Api;
-using Dropbox.Api.Files;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
 
-namespace BLL.Services
+namespace BLL.Services;
+
+public interface IFileService
 {
-    public class FileService
+    Task<string> Upload(IFormFile file);
+} 
+
+public class FileService : IFileService
+{
+    private readonly IHostingEnvironment _hostingEnvironment;
+
+    public FileService(IHostingEnvironment hostingEnvironment)
     {
-        private const string Token = "sl.BhWc1kbeC5T0docTPI5kpNRmpkOoiZWhlSVBnC4MFgJaTtAwJV7NG1pcS6jLBq_Mt6_UJRGmlkk5B80pH0Kbp3w1f6obaO80ewqLHOrl8d5vcyP736R9s4_g-XwIcQePg9F7RMk";
-   
-        public async Task<string> Upload(string folder, IFormFile file)
-        {
-            using var dropboxClient = new DropboxClient(Token);
-            string filePath = Path.GetTempFileName();
-            await using var mem = new MemoryStream(await File.ReadAllBytesAsync(filePath));
-            string path = folder + "/" + file.FileName; 
-
-            await using (var stream = File.Create(filePath)) 
-                await file.CopyToAsync(stream);
-
-            await dropboxClient.Files.UploadAsync(
-                path,
-                WriteMode.Overwrite.Instance,
-                body: mem);
-            
-            var shareLinkInfo = new Dropbox.Api.Sharing.CreateSharedLinkWithSettingsArg(path);
-            var responseShare = await dropboxClient.Sharing.CreateSharedLinkWithSettingsAsync(shareLinkInfo);
-            
-            return responseShare.Url;
-        }
-
-        public async Task Download(string folder, string file)
-        {
-            using var dropboxClient = new DropboxClient(Token);
-            using var response = await dropboxClient.Files.DownloadAsync(folder + "/" + file);
-        }
+        _hostingEnvironment = hostingEnvironment;
+    }
+    
+    public async Task<string> Upload(IFormFile file)
+    {
+        var fileName = new string(Path.GetFileNameWithoutExtension(file.FileName).Take(10).ToArray()).Replace(' ', '-');
+        fileName += DateTime.Now.ToString("yyyy-M-d") + Path.GetExtension(file.FileName);
+        var filePath = Path.Combine(_hostingEnvironment.ContentRootPath, "Files", fileName);
+        await using var fileStream = new FileStream(filePath, FileMode.Create);
+        await file.CopyToAsync(fileStream);
+        return fileName;
     }
 }

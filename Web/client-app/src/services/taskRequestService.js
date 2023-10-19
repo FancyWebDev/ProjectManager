@@ -1,11 +1,11 @@
 import { uri } from '@/helpers/variables'
 
-async function getAll() {
+export async function getAll() {
   const [response] = await Promise.all([fetch(`${uri}/task`)])
   return await response.json()
 }
 
-async function get(id) {
+export async function get(id) {
   const [response] = await Promise.all([fetch(`${uri}/task/detail/${id}`)])
   const task = await response.json()
   
@@ -13,7 +13,7 @@ async function get(id) {
   return task
 }
 
-async function create(task) {
+export async function create(task) {
   const { name, author, performer, status, priority, comment } = task
   const request = fetch(`${uri}/task`, {
     method: 'POST',
@@ -38,7 +38,7 @@ async function create(task) {
   return response
 }
 
-async function update(task) {
+export async function update(task) {
   const { id, name, author, performer, status, priority, comment } = task
   const request = fetch(`${uri}/task/edit/${id}`, {
     method: 'PUT',
@@ -64,7 +64,7 @@ async function update(task) {
   return response
 }
 
-async function deleteTask(task) {
+export async function deleteTask(task) {
   const request = fetch(`${uri}/task/delete/${task.id}`, {
     method: 'DELETE',
     mode: 'cors',
@@ -79,5 +79,3 @@ async function deleteTask(task) {
   console.log(response)
   return response
 }
-
-export { getAll, get, create, update, deleteTask }

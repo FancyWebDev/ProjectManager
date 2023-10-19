@@ -1,11 +1,11 @@
 import { uri } from '@/helpers/variables'
 
-async function getAll() {
+export async function getAll() {
   const [response] = await Promise.all([fetch(`${uri}/collaborator`)])
   return await response.json()
 }
 
-async function get(id) {
+export async function get(id) {
   const [response] = await Promise.all([fetch(`${uri}/collaborator/detail/${id}`)])
   const collaborator = await response.json()
   
@@ -13,7 +13,7 @@ async function get(id) {
   return collaborator
 }
 
-async function update(collaborator) {
+export async function update(collaborator) {
   const request = fetch(`${uri}/collaborator/edit/${collaborator.id}`, {
     method: 'PUT',
     mode: 'cors',
@@ -29,7 +29,7 @@ async function update(collaborator) {
   return response
 }
 
-async function deleteCollaborator(collaborator) {
+export async function deleteCollaborator(collaborator) {
   const request = fetch(`${uri}/collaborator/delete/${collaborator.id}`, {
     method: 'DELETE',
     mode: 'cors',
@@ -44,5 +44,3 @@ async function deleteCollaborator(collaborator) {
   console.log(response)
   return response
 }
-
-export { getAll, get, update, deleteCollaborator }

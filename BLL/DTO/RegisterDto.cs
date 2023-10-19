@@ -1,12 +1,11 @@
-﻿namespace BLL.DTO
+﻿namespace BLL.DTO;
+
+public class RegisterDto
 {
-    public class RegisterDto
-    {
-        public string FirstName { get; init; }
-        public string LastName { get; init; }
-        public string Patronymic { get; init; }
-        public string Email { get; init; }
-        public string Password { get; init; }
-        public string ConfirmPassword { get; init; }
-    }
+    public string FirstName { get; init; }
+    public string LastName { get; init; }
+    public string Patronymic { get; init; }
+    public string Email { get; init; }
+    public string Password { get; init; }
+    public string ConfirmPassword { get; init; }
 }

@@ -1,8 +1,7 @@
-﻿namespace BLL.DTO
+﻿namespace BLL.DTO;
+
+public class LoginDto
 {
-    public class LoginDto
-    {
-        public string Email { get; init; }
-        public string Password { get; init; }
-    }
+    public string Email { get; init; }
+    public string Password { get; init; }
 }

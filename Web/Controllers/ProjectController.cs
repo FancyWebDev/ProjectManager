@@ -1,63 +1,59 @@
-﻿using System.Collections.Generic;
-using BLL.DTO;
+﻿using BLL.DTO;
 using BLL.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Controllers
+namespace Web.Controllers;
+
+[ApiController]
+[Route("[controller]")]
+public class ProjectController : ControllerBase
 {
-    [ApiController]
-    [Route("[controller]")]
-    public class ProjectController : ControllerBase
+    private readonly IProjectService _projectService;
+
+    public ProjectController(IProjectService projectService)
     {
-        private readonly IProjectService _projectService;
+        _projectService = projectService;
+    }
 
-        public ProjectController(IProjectService projectService)
-        {
-            _projectService = projectService;
-        }
-        
-        [HttpGet]
-        public IEnumerable<ProjectDto> Get() => _projectService.GetAll();
-        
-        [HttpPost]
-        public IActionResult CreateProject([FromForm] ProjectDto project, [FromForm] IEnumerable<IFormFile>? files)
-        {
-            if (project == null || ModelState.IsValid == false)
-                return BadRequest(ModelState);
+    [HttpGet]
+    public IEnumerable<ProjectDto> Get() => _projectService.GetAll();
 
-            project.Files = files;
-            _projectService.Add(project);
-            return Ok();
-        }
+    [HttpPost]
+    public async Task<IActionResult> CreateProject([FromForm] ProjectDto project)
+    {
+        if (project == null || ModelState.IsValid == false)
+            return BadRequest(ModelState);
 
-        [HttpGet("detail/{id:int}")]
-        public ProjectDto GetProject(int id) => _projectService.Get(project => project.Id == id);
+        await _projectService.Add(project);
+        return Ok();
+    }
 
-        [HttpPut("edit/{id:int}")]
-        public IActionResult UpdateProject(int id, [FromBody] ProjectDto projectDto)
-        {
-            if (projectDto == null || ModelState.IsValid == false)
-                return BadRequest();
+    [HttpGet("detail/{id:int}")]
+    public ProjectDto GetProject(int id) => _projectService.Get(project => project.Id == id);
 
-            if (_projectService.Exist(project => project.Id == id) == false)
-                return NotFound();
+    [HttpPut("edit/{id:int}")]
+    public IActionResult UpdateProject(int id, [FromBody] ProjectDto projectDto)
+    {
+        if (projectDto == null || ModelState.IsValid == false)
+            return BadRequest();
 
-            _projectService.Update(projectDto);
-            return NoContent();
-        }
+        if (_projectService.Exist(project => project.Id == id) == false)
+            return NotFound();
 
-        [HttpDelete("delete/{id:int}")]
-        public IActionResult DeleteProject(int id, [FromBody] ProjectDto projectDto)
-        {
-            if (projectDto == null)
-                return BadRequest();
+        _projectService.Update(projectDto);
+        return NoContent();
+    }
+
+    [HttpDelete("delete/{id:int}")]
+    public IActionResult DeleteProject(int id, [FromBody] ProjectDto projectDto)
+    {
+        if (projectDto == null)
+            return BadRequest();
             
-            if (_projectService.Exist(project => project.Id == id) == false)
-                return NotFound();
+        if (_projectService.Exist(project => project.Id == id) == false)
+            return NotFound();
             
-            _projectService.Delete(projectDto);
-            return NoContent();
-        }
+        _projectService.Delete(projectDto);
+        return NoContent();
     }
 }

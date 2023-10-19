@@ -68,7 +68,7 @@ const project = reactive({
   customerCompanyName: null,
   performerCompanyName: null,
   directorId: null,
-  collaborators: [],
+  collaboratorsId: [],
   priority: 0,
   projectStartDate: null,
   projectEndDate: null,
@@ -94,11 +94,12 @@ function previous() {
 }
 
 function createProject() {
-  project.collaborators = Object.values(rawData.collaborators)
+  project.collaboratorsId = Object
+      .values(rawData.collaborators)
+      .map(collaborator => collaborator.id)
   project.directorId = rawData.director.id
 
-  const files = rawData.files.map(({ file }) => file)
-  project.files = files
+  project.files = rawData.files.map(({file}) => file)
 
   create(project)
   router.push('/project')

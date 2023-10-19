@@ -1,9 +1,8 @@
-﻿namespace DAL
+﻿namespace DAL;
+
+public enum TaskPriority
 {
-    public enum TaskPriority
-    {
-        None,
-        Medium,
-        High
-    }
+    None,
+    Medium,
+    High
 }
